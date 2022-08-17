@@ -1,5 +1,5 @@
 # Rust as the base image
-FROM rust:1.51 as build
+FROM rust:1.53 as build
 
 # Create a new empty shell project
 RUN USER=root cargo new --bin holodeck
