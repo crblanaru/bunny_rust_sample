@@ -9,7 +9,7 @@ WORKDIR /holodeck
 COPY ./Cargo.toml ./Cargo.toml
 
 # Build only the dependencies to cache them
-RUN cargo build --release
+RUN cargo build --release -Z unstable-options
 RUN rm src/*.rs
 
 # Copy the source code
@@ -17,7 +17,7 @@ COPY ./src ./src
 
 # Build for release.
 RUN rm ./target/release/deps/holodeck*
-RUN cargo build --release
+RUN cargo build --release -Z unstable-options
 
 # The final base image
 FROM debian:buster-slim
