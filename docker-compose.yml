@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  rustapp:
+    build: ./rust
+    ports:
+      - "3030:3030"
