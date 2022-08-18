@@ -4,4 +4,4 @@ services:
   rustapp:
     build: ./rust
     ports:
-      - "3030:3030"
+      - "5000:5000"

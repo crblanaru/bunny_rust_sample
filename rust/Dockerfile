@@ -1,30 +1,23 @@
-# Rust as the base image
-FROM rust:1.53 as build
+FROM rust:1.57.0-alpine as builder
 
-# Create a new empty shell project
-RUN USER=root cargo new --bin holodeck
-WORKDIR /holodeck
-
-# Copy our manifests
+RUN apk add --no-cache musl-dev
+WORKDIR /opt
+RUN USER=root cargo new --bin rust-warp-docker
+WORKDIR /opt/rust-warp-docker
+COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
-
-# Build only the dependencies to cache them
 RUN cargo build --release
-RUN rm src/*.rs
+RUN rm ./src/*.rs
+RUN rm ./target/release/deps/rust_warp_docker*
 
-# Copy the source code
-COPY ./src ./src
-
-# Build for release.
-RUN rm ./target/release/deps/holodeck*
+ADD ./src ./src
 RUN cargo build --release
 
-# The final base image
-FROM debian:buster-slim
+FROM scratch
+WORKDIR /opt/rust-warp-docker
+COPY --from=builder /opt/rust-warp-docker/target/release/rust-warp-docker-tutorial .
+COPY ./data ./data
 
-# Copy from the previous build
-COPY --from=build /holodeck/target/release/holodeck /usr/src/holodeck
-# COPY --from=build /holodeck/target/release/holodeck/target/x86_64-unknown-linux-musl/release/holodeck .
+EXPOSE 5000
+CMD ["/opt/rust-warp-docker/rust-warp-docker-tutorial"]
 
-# Run the binary
-CMD ["/usr/src/holodeck"]

@@ -1,19 +1,16 @@
+use std::env;
+use std::fs;
 use warp::Filter;
-mod libs;
 
 #[tokio::main]
 async fn main() {
-    use libs::{filters, models};
+    println!("Starting server...");
+    let instance_name = env::var("INSTANCE_NAME").expect("Error reading environment variable.");
+    let text_msg = fs::read_to_string("data/data.txt").expect("could not read file");
+    let text_msg = format!("[{}] {}", instance_name, text_msg);
+    let root = warp::path::end().map(move || text_msg.clone());
 
-    let db = models::new_db();
+    let routes = root.with(warp::cors().allow_any_origin());
 
-    let routes = filters::list_sims(db.clone())
-        .or(filters::post_sim(db.clone()))
-        .or(filters::update_sim(db.clone()))
-        .or(filters::delete_sim(db.clone()));
-
-    println!("Warp 6, Engage!");
-    warp::serve(routes)
-        .run(([0, 0, 0, 0], 3030))
-        .await;
+    warp::serve(routes).run(([0, 0, 0, 0], 5000)).await;
 }
