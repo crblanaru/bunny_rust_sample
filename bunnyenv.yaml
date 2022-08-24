@@ -1,8 +1,5 @@
 kind: Environment
 version: v1
-metadata:
-    com.bunnyshell.k8s.id: 3784
-    com.bunnyshell.k8s.unique: pxyrqp
 name: bunny_rust
 type: primary
 environmentVariables: {  }
@@ -15,13 +12,6 @@ components:
         publicId: 7ZGLVXA0gB
         version: v1
         name: rustapp
-        metadata:
-            com.bunnyshell.k8s.source-file: 'git://github.com/bunnyshell-eaas/bunny_rust_sample.git/docker-compose.yml'
-            com.bunnyshell.k8s.source-file-hash: 0996e31597cbac2307606b41e689ebbf386d49c3
-            com.bunnyshell.k8s.source-block-hash: 8dd7c462104e5c4cbd3a609b11e4b1d6
-            com.bunnyshell.k8s.id: 12867
-            com.bunnyshell.k8s.display-name: rustapp
-            com.bunnyshell.k8s.unique: pxyrqp-0
         gitRepo: 'git://github.com/bunnyshell-eaas/bunny_rust_sample.git'
         gitBranch: main
         gitDockerComposePath: /docker-compose.yml
@@ -44,7 +34,7 @@ components:
             syncPath: null
         hosts:
             -
-                hostname: rustapp-pxyrqp.bunnyenv.com
+                hostname: rustapp-to-be-provided.bunnyenv.com
                 path: /
                 servicePort: 5000
                 public: null
