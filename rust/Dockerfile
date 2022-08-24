@@ -13,6 +13,7 @@ RUN rm ./target/release/deps/rust_warp_docker*
 ADD ./src ./src
 RUN cargo build --release
 
+# multi stage build to keep image size small
 FROM scratch
 WORKDIR /opt/rust-warp-docker
 COPY --from=builder /opt/rust-warp-docker/target/release/rust-warp-docker-tutorial .
